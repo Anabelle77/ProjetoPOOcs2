@@ -43,6 +43,7 @@ class Program
         int idade = int.Parse(Console.ReadLine());
         Console.Write("Digite seu CPF: ");
         string cpf = Console.ReadLine();
+        Console.Write("Digite seu Telefone: ");
         string telefone = Console.ReadLine();
         Console.Write("Digite seu e-mail: ");
         string email = Console.ReadLine();
@@ -71,6 +72,21 @@ class Program
         Console.WriteLine($"Idade: {cidadaoLogado.Idade}");
         Console.WriteLine($"CPF: {cidadaoLogado.CPF}");
         Console.WriteLine($"Vacinado: {(vacinado ? "Sim" : "Não")}");
+        
+        Console.WriteLine("Deseja agendar sua vacinação? (s/n)");
+        if (char.ToLower(Console.ReadKey().KeyChar) == 's')
+        {
+            Console.WriteLine("\nDigite a data da vacinação (formato: DD/MM/AAAA):");
+            if (DateTime.TryParse(Console.ReadLine(), out DateTime data))
+            {
+                cidadaoLogado.AgendarVacinacao(data);
+                Console.WriteLine("Vacinação agendada com sucesso!");
+            }
+            else
+            {
+                Console.WriteLine("Data inválida. Tente novamente.");
+            }
+        }
         
     }
 
@@ -175,6 +191,8 @@ class Cidadao
     public bool Vacinado { get; }
     public string Telefone { get; }
     public string Email { get; }
+    public DateTime Agendamento { get; set; }
+
     public Cidadao(string nome, string cpf, int idade, bool vacinado, string telefone, string email)
     {
         Nome = nome;
@@ -186,6 +204,10 @@ class Cidadao
     }
 
     public Cidadao(string nome, string cpf) : this(nome, cpf, 0, false, " ", " ") { }
+    public void AgendarVacinacao(DateTime data)
+    {
+        Agendamento = data;
+    }
 }
 
 class Funcionario
